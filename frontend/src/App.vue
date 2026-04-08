@@ -119,14 +119,50 @@ const onGenerate = async (payload: GeneratePostPayload) => {
   startProgress();
   error.value = '';
 
+  console.info('[Generate] Request payload', {
+    niche: payload.niche,
+    tone: payload.tone,
+    goal: payload.goal,
+    hasDescription: Boolean(payload.description && payload.description.length > 0),
+  });
+
   try {
     generatedPost.value = await generatePost(payload);
+    console.info('[Generate] Success payload summary', {
+      id: generatedPost.value.id,
+      niche: generatedPost.value.niche,
+      tone: generatedPost.value.tone,
+      goal: generatedPost.value.goal,
+      hasCaption: Boolean(generatedPost.value.caption),
+      hooks: generatedPost.value.hooks.length,
+      hashtags: generatedPost.value.hashtags.length,
+      hasImage: Boolean(generatedPost.value.imageUrl),
+      imagePrefix: generatedPost.value.imageUrl ? generatedPost.value.imageUrl.slice(0, 20) : 'none',
+    });
+
     await loadRecentPosts();
   } catch (err) {
     if (isAxiosError(err)) {
       const message = err.response?.data?.message;
+      const serverError = err.response?.data?.error;
+      const serverStatus = err.response?.status;
+
+      console.error('[Generate] Request failed', {
+        status: serverStatus,
+        error: serverError,
+        message,
+        code: err.code,
+        axiosMessage: err.message,
+      });
+
       if (typeof message === 'string' && message.length > 0) {
+        if (message.toLowerCase().includes('insufficient provider credits')) {
+          error.value = 'OpenRouter credits are insufficient. Add credits to generate text and image.';
+        } else {
         error.value = message;
+        }
+      } else if (Array.isArray(message) && message.length > 0) {
+        error.value = message.join(' | ');
       } else if (err.code === 'ECONNABORTED') {
         error.value = 'Generation timed out. Try again or reduce description length.';
       } else {
