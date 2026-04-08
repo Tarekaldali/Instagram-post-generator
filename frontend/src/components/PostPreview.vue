@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div class="mx-auto max-w-sm overflow-hidden rounded-3xl border border-line bg-[#101010] shadow-glow">
+    <div class="mx-auto w-full max-w-[390px] overflow-hidden rounded-[28px] border border-line bg-[#0b0d12] shadow-glow">
       <div class="flex items-center justify-between px-4 pb-3 pt-4">
         <div class="flex items-center gap-3">
           <div class="grid h-9 w-9 place-content-center rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-indigo-500 p-[2px]">
@@ -51,21 +51,24 @@
 
       <div class="relative aspect-square overflow-hidden border-y border-line bg-gradient-to-br from-zinc-900 via-zinc-800 to-black">
         <img
-          v-if="post?.imageUrl"
-          :src="post.imageUrl"
+          v-if="activeImageUrl && !imageLoadFailed"
+          :key="activeImageUrl"
+          :src="activeImageUrl"
           alt="Generated Instagram visual"
           class="h-full w-full object-cover"
+          @load="onImageLoad"
+          @error="onImageError"
         />
         <template v-else>
           <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_10%,rgba(117,247,179,0.16),transparent_40%)]" />
           <div class="absolute inset-x-0 bottom-0 p-4 text-xs uppercase tracking-[0.15em] text-steel">
-            Generated image placeholder
+            {{ imageLoadFailed ? 'Image failed to render' : 'Generated image placeholder' }}
           </div>
         </template>
       </div>
 
       <div class="px-4 pb-4 pt-3">
-      <div class="mb-3 flex items-center justify-between text-slate-200">
+      <div class="mb-2 flex items-center justify-between text-slate-200">
         <div class="flex items-center gap-4">
           <button class="transition hover:text-white" type="button" aria-label="Like">
             <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -106,8 +109,8 @@
 
       <p class="mb-2 text-[13px] font-semibold text-white">{{ likesLine }}</p>
 
-      <div class="space-y-2 text-sm leading-relaxed text-slate-100">
-        <p class="inline rounded-md bg-white/10 px-2 py-1 text-[13px] font-semibold text-white">
+      <div class="space-y-2 text-[14px] leading-relaxed text-slate-100">
+        <p class="inline rounded-md bg-white/10 px-2 py-1 text-[12px] font-semibold text-white">
           {{ primaryHook }}
         </p>
 
@@ -126,7 +129,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import type { GeneratedPost } from '../types';
 
 const props = defineProps<{
@@ -141,6 +144,39 @@ const emit = defineEmits<{
 }>();
 
 const copied = ref(false);
+const imageLoadFailed = ref(false);
+const usedInlineFallback = ref(false);
+const activeImageUrl = ref('');
+const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000').replace(/\/+$/, '');
+
+const previewImageUrl = computed(() => {
+  const url = props.post?.imageUrl?.trim();
+  if (!url) {
+    return '';
+  }
+
+  if (url.startsWith('data:image/') || url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+
+  return '';
+});
+
+watch(
+  () => props.post?.imageUrl,
+  (newValue) => {
+    imageLoadFailed.value = false;
+    usedInlineFallback.value = false;
+    activeImageUrl.value = resolveImageUrlForDisplay(previewImageUrl.value) || buildInlineFallbackImage();
+    console.info('[Preview] Received image URL for target container', {
+      hasValue: Boolean(newValue),
+      prefix: newValue ? newValue.slice(0, 20) : 'none',
+    });
+  },
+  {
+    immediate: true,
+  },
+);
 
 const primaryHook = computed(() => props.post?.hooks?.[0] || 'Your strongest hook appears here');
 
@@ -176,6 +212,73 @@ const likesLine = computed(() => {
   const likes = 900 + (seed % 1900);
   return `${likes.toLocaleString()} likes`;
 });
+
+const onImageLoad = () => {
+  imageLoadFailed.value = false;
+  console.info('[Preview] Image rendered inside Instagram image container successfully.');
+};
+
+const onImageError = () => {
+  if (!usedInlineFallback.value) {
+    usedInlineFallback.value = true;
+    activeImageUrl.value = buildInlineFallbackImage();
+    imageLoadFailed.value = false;
+    console.warn('[Preview] Remote image failed. Switched to inline fallback image.');
+    return;
+  }
+
+  imageLoadFailed.value = true;
+  console.error('[Preview] Image failed to render in Instagram image container after fallback.', {
+    prefix: activeImageUrl.value ? activeImageUrl.value.slice(0, 50) : 'none',
+  });
+};
+
+function buildInlineFallbackImage(): string {
+  const title = sanitizeForSvg(props.post?.niche || 'Instagram Post');
+  const subtitle = sanitizeForSvg(props.post?.goal || 'Generated Visual');
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="45%" stop-color="#155e75"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <circle cx="820" cy="210" r="190" fill="rgba(16,185,129,0.22)"/>
+  <circle cx="170" cy="860" r="210" fill="rgba(14,165,233,0.18)"/>
+  <text x="72" y="150" fill="#a7f3d0" font-family="Verdana, Geneva, sans-serif" font-size="30" letter-spacing="4">INSTAGRAM VISUAL</text>
+  <text x="72" y="495" fill="#ffffff" font-family="Verdana, Geneva, sans-serif" font-size="64" font-weight="700">${title}</text>
+  <text x="72" y="585" fill="#d1fae5" font-family="Verdana, Geneva, sans-serif" font-size="36">${subtitle}</text>
+</svg>`;
+
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+}
+
+function resolveImageUrlForDisplay(url: string): string {
+  if (!url) {
+    return '';
+  }
+
+  if (url.startsWith('data:image/')) {
+    return url;
+  }
+
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return `${apiBaseUrl}/image-proxy?url=${encodeURIComponent(url)}`;
+  }
+
+  return '';
+}
+
+function sanitizeForSvg(value: string): string {
+  return value
+      .replace(/[&<>"']/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 52);
+}
 
 const updateUsername = (event: Event) => {
   emit('update:username', (event.target as HTMLInputElement).value);
