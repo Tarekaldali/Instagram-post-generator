@@ -8,6 +8,7 @@ export type GeneratedPostDocument = HydratedDocument<GeneratedPost>;
     createdAt: true,
     updatedAt: false,
   },
+  bufferCommands: false,
 })
 export class GeneratedPost {
   @Prop({ required: true, trim: true })

@@ -13,6 +13,10 @@ import { PostModule } from './post/post.module';
       useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('MONGODB_URI', ''),
         serverSelectionTimeoutMS: 10000,
+        connectTimeoutMS: 10000,
+        bufferCommands: false,
+        bufferTimeoutMS: 0,
+        lazyConnection: true,
       }),
     }),
     PostModule,
