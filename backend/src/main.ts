@@ -1,6 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { DatabaseConnectionService } from './database/database-connection.service';
 
 const isMongoConnectionFailure = (value: unknown): boolean => {
   if (!(value instanceof Error)) {
@@ -44,6 +45,7 @@ process.on('unhandledRejection', (reason) => {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const databaseConnectionService = app.get(DatabaseConnectionService);
 
   app.enableCors({
     origin: true,
@@ -59,6 +61,12 @@ async function bootstrap() {
   );
 
   const port = process.env.PORT ? Number(process.env.PORT) : 4000;
+  const didWarmDatabase = await databaseConnectionService.waitUntilReady(10000);
+  if (!didWarmDatabase) {
+    console.warn(
+      '[MongoDB] Startup wait ended before the initial database connection was ready. DB-backed routes may temporarily reject requests until the connection completes.',
+    );
+  }
   await app.listen(port);
 
   console.log(`Instagram Post Generator API running on http://localhost:${port}`);
