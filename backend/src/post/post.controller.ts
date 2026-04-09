@@ -31,6 +31,15 @@ export class PostController {
         generate: 'POST /generate',
         posts: 'GET /posts',
         imageProxy: 'GET /image-proxy?url=<encoded_image_url>',
+        auth: {
+          register: 'POST /auth/register',
+          login: 'POST /auth/login',
+          logout: 'POST /auth/logout',
+        },
+        ai: {
+          generatePost: 'POST /ai/generate-post',
+          generateImage: 'POST /ai/generate-image',
+        },
       },
       runtime: this.postService.getRuntimeStatus(),
     };

@@ -358,6 +358,7 @@ export class PostService {
       database: {
         readyState: this.connection.readyState,
         state: this.describeDbState(this.connection.readyState),
+        dbName: this.connection.name,
       },
       provider: {
         usingOpenRouter: this.usingOpenRouter,
