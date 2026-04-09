@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;600;700;800&display=swap');
+
+:root {
+  color-scheme: light;
+  --color-background: #f7f1e8;
+  --color-background-strong: #111111;
+  --color-background-muted: #efe5d6;
+  --color-surface: #fff9f2;
+  --color-surface-raised: #ffffff;
+  --color-surface-strong: #171717;
+  --color-border: #dcc8af;
+  --color-border-strong: #2a2a2a;
+  --color-text: #111111;
+  --color-text-muted: #5d5348;
+  --color-text-inverse: #fff9f2;
+  --color-accent: #f97316;
+  --color-accent-strong: #ea580c;
+  --color-accent-soft: #fed7aa;
+  --color-danger: #c2410c;
+  --shadow-soft: 0 18px 50px rgba(17, 17, 17, 0.08);
+  --shadow-strong: 0 30px 80px rgba(17, 17, 17, 0.18);
+  --radius-large: 28px;
+  --radius-medium: 18px;
+  --radius-small: 12px;
+}
