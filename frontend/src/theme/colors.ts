@@ -1,0 +1,18 @@
+export const themeColors = {
+  background: '#f7f1e8',
+  backgroundStrong: '#111111',
+  backgroundMuted: '#efe5d6',
+  surface: '#fff9f2',
+  surfaceStrong: '#171717',
+  surfaceRaised: '#ffffff',
+  border: '#dcc8af',
+  borderStrong: '#2a2a2a',
+  text: '#111111',
+  textMuted: '#5d5348',
+  textInverse: '#fff9f2',
+  accent: '#f97316',
+  accentStrong: '#ea580c',
+  accentSoft: '#fed7aa',
+  danger: '#c2410c',
+  success: '#9a3412',
+} as const;
