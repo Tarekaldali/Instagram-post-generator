@@ -1,25 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap');
 
 :root {
   color-scheme: light;
-  --color-background: #f7f1e8;
-  --color-background-strong: #111111;
-  --color-background-muted: #efe5d6;
-  --color-surface: #fff9f2;
+  --color-background: #f3f6ff;
+  --color-background-strong: #16213f;
+  --color-background-muted: #dfe7ff;
+  --color-surface: #f8faff;
   --color-surface-raised: #ffffff;
-  --color-surface-strong: #171717;
-  --color-border: #dcc8af;
-  --color-border-strong: #2a2a2a;
-  --color-text: #111111;
-  --color-text-muted: #5d5348;
-  --color-text-inverse: #fff9f2;
-  --color-accent: #f97316;
-  --color-accent-strong: #ea580c;
-  --color-accent-soft: #fed7aa;
-  --color-danger: #c2410c;
-  --shadow-soft: 0 18px 50px rgba(17, 17, 17, 0.08);
-  --shadow-strong: 0 30px 80px rgba(17, 17, 17, 0.18);
-  --radius-large: 28px;
-  --radius-medium: 18px;
-  --radius-small: 12px;
+  --color-surface-strong: #1b2550;
+  --color-border: rgba(99, 118, 187, 0.2);
+  --color-border-strong: rgba(22, 33, 63, 0.28);
+  --color-text: #15203b;
+  --color-text-muted: #647392;
+  --color-text-inverse: #f8faff;
+  --color-accent: #3155e7;
+  --color-accent-strong: #1d37b7;
+  --color-accent-soft: #dfe6ff;
+  --color-danger: #b42346;
+  --color-success: #167c65;
+  --shadow-soft: 0 26px 60px rgba(30, 46, 95, 0.12);
+  --shadow-strong: 0 42px 110px rgba(17, 31, 73, 0.18);
+  --radius-large: 32px;
+  --radius-medium: 22px;
+  --radius-small: 16px;
 }
