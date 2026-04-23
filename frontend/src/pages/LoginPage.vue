@@ -1,12 +1,12 @@
 <template>
   <div class="page-shell">
-    <div class="container-shell py-10">
-      <header class="site-header">
+    <div class="container-shell">
+      <header class="site-header site-header-floating">
         <div class="site-brand">
-          <div class="brand-mark">IG</div>
+          <div class="brand-mark">FF</div>
           <div class="brand-copy">
-            <p class="brand-title">Orangeframe Studio</p>
-            <p class="brand-subtitle">Dedicated authentication workspace</p>
+            <p class="brand-title">FrameFlow</p>
+            <p class="brand-subtitle">Access your Instagram content workspace</p>
           </div>
         </div>
 
@@ -25,59 +25,94 @@
         </div>
       </header>
 
-      <main class="hero-grid">
-        <section class="section-stack">
-          <p class="eyebrow">Dedicated route</p>
-          <h1 class="display-title">Sign in without losing the rest of the product.</h1>
-          <p class="lede">
-            This flow is now its own page, with persistent token storage and a backend-backed
-            session instead of a transient modal.
-          </p>
-          <div class="feature-grid">
-            <article class="section-card">
-              <p class="font-semibold">Stored session</p>
-              <p class="field-help">The landing page knows when you are already signed in.</p>
-            </article>
-            <article class="section-card">
-              <p class="font-semibold">Modern notifications</p>
-              <p class="field-help">Errors and success states use toasts instead of blocking popups.</p>
-            </article>
-            <article class="section-card">
-              <p class="font-semibold">Admin-aware</p>
-              <p class="field-help">Admins can continue straight into `/admin` after login.</p>
-            </article>
+      <main class="auth-layout">
+        <section class="spotlight-shell">
+          <div class="spotlight-copy" style="text-align: left; justify-items: start;">
+            <p class="eyebrow eyebrow-inverse">Secure sign in</p>
+            <h1 class="spotlight-title">Step back into your workspace without losing momentum.</h1>
+            <p class="spotlight-lede" style="margin-inline: 0; text-align: left;">
+              Use one page for login or account creation, keep the experience simple, and move
+              directly into the generator when your session is ready.
+            </p>
+          </div>
+
+          <div class="auth-points">
+            <div class="auth-point">
+              <p class="auth-point-title">Persistent session</p>
+              <p class="auth-point-copy">
+                Returning users stay connected to the dashboard and protected routes.
+              </p>
+            </div>
+            <div class="auth-point">
+              <p class="auth-point-title">Clear branching</p>
+              <p class="auth-point-copy">
+                Sign up for a new workspace or log in to keep going with the current one.
+              </p>
+            </div>
+            <div class="auth-point">
+              <p class="auth-point-title">Admin-aware routing</p>
+              <p class="auth-point-copy">
+                Admin accounts can continue straight into the back office after authentication.
+              </p>
+            </div>
           </div>
         </section>
 
-        <section class="login-panel p-6 md:p-8">
-          <div class="stack-actions">
-            <button
-              class="btn"
-              :class="mode === 'login' ? 'btn-dark' : 'btn-secondary'"
-              type="button"
-              @click="mode = 'login'"
-            >
-              Login
-            </button>
-            <button
-              class="btn"
-              :class="mode === 'signup' ? 'btn-dark' : 'btn-secondary'"
-              type="button"
-              @click="mode = 'signup'"
-            >
-              Signup
-            </button>
-          </div>
+        <section class="panel login-panel auth-card">
+          <div class="panel-stack">
+            <div class="stack-actions">
+              <button
+                class="btn"
+                :class="mode === 'login' ? 'btn-dark' : 'btn-secondary'"
+                type="button"
+                @click="mode = 'login'"
+              >
+                Log in
+              </button>
+              <button
+                class="btn"
+                :class="mode === 'signup' ? 'btn-dark' : 'btn-secondary'"
+                type="button"
+                @click="mode = 'signup'"
+              >
+                Create account
+              </button>
+            </div>
 
-          <div class="mt-6 space-y-5">
+            <div>
+              <p class="eyebrow">{{ mode === 'login' ? 'Welcome back' : 'New workspace' }}</p>
+              <h2 class="panel-title">
+                {{ mode === 'login' ? 'Log in to your generator.' : 'Create your FrameFlow account.' }}
+              </h2>
+              <p class="panel-copy">
+                {{
+                  mode === 'login'
+                    ? 'Use your existing email and password to return to your saved history and plan.'
+                    : 'Your first account can become the bootstrap admin if no admin exists yet.'
+                }}
+              </p>
+            </div>
+
             <div v-if="mode === 'signup'">
               <label class="field-label" for="name">Full name</label>
-              <input id="name" v-model.trim="name" class="field-input" type="text" placeholder="Jane Founder" />
+              <input
+                id="name"
+                v-model.trim="name"
+                class="field-input"
+                type="text"
+                placeholder="Jane Founder"
+              />
             </div>
 
             <div>
               <label class="field-label" for="email">Email</label>
-              <input id="email" v-model.trim="email" class="field-input" type="email" placeholder="you@company.com" />
+              <input
+                id="email"
+                v-model.trim="email"
+                class="field-input"
+                type="email"
+                placeholder="you@company.com"
+              />
             </div>
 
             <div>
@@ -93,15 +128,15 @@
 
             <p v-if="formError" class="field-error">{{ formError }}</p>
 
-            <button class="btn btn-primary w-full" type="button" :disabled="busy" @click="submit">
-              {{ busy ? 'Working...' : mode === 'login' ? 'Login to workspace' : 'Create workspace' }}
+            <button class="btn btn-primary btn-full" type="button" :disabled="busy" @click="submit">
+              {{ busy ? 'Working...' : mode === 'login' ? 'Enter workspace' : 'Create workspace' }}
             </button>
 
             <p class="field-help">
               {{
                 mode === 'login'
-                  ? 'Use your existing credentials to restore your dashboard.'
-                  : 'The first account becomes the bootstrap admin when no admin exists yet.'
+                  ? 'The app restores the correct route after login based on your account role.'
+                  : 'After signup, your workspace opens immediately so you can start generating posts.'
               }}
             </p>
           </div>
@@ -143,6 +178,10 @@ watch(
     formError.value = '';
   },
 );
+
+watch(mode, () => {
+  formError.value = '';
+});
 
 const submit = () => {
   formError.value = '';
