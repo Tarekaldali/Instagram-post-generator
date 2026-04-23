@@ -1,11 +1,11 @@
 <template>
   <div class="page-shell">
-    <div class="container-shell pb-20">
-      <header class="site-header">
+    <div class="container-shell">
+      <header class="site-header site-header-floating">
         <div class="site-brand">
           <div class="brand-mark">AD</div>
           <div class="brand-copy">
-            <p class="brand-title">Admin workspace</p>
+            <p class="brand-title">FrameFlow admin</p>
             <p class="brand-subtitle">{{ user.email }}</p>
           </div>
         </div>
@@ -22,36 +22,60 @@
         </div>
       </header>
 
-      <main class="space-y-8">
-        <section class="section-stack">
-          <p class="eyebrow">/admin</p>
-          <h1 class="section-title">Operators now have a real route for live visibility.</h1>
-          <p class="lede">
-            This page is protected by backend role checks and surfaces the core operational
-            tables you asked for: users, plans, and generations.
-          </p>
-        </section>
+      <main class="page-stack">
+        <section class="spotlight-shell">
+          <div class="story-grid" style="position: relative; z-index: 1; align-items: start;">
+            <div class="panel-stack">
+              <div>
+                <p class="eyebrow eyebrow-inverse">Operations</p>
+                <h1 class="spotlight-title">See the live health of accounts, plans, and generation activity.</h1>
+              </div>
+              <p class="spotlight-lede" style="margin-inline: 0; text-align: left;">
+                This admin view keeps the back office clear: who is using the app, what plans are
+                active, and how often the generator is being used.
+              </p>
+            </div>
 
-        <section class="metric-grid">
-          <article class="metric-card">
-            <p class="metric-label">Users</p>
-            <p class="metric-value">{{ overview.userCount }}</p>
-          </article>
-          <article class="metric-card">
-            <p class="metric-label">Plans</p>
-            <p class="metric-value">{{ overview.planCount }}</p>
-          </article>
-          <article class="metric-card">
-            <p class="metric-label">Generations</p>
-            <p class="metric-value">{{ overview.generationCount }}</p>
-          </article>
+            <article class="status-card" style="background: rgba(248, 250, 255, 0.12); color: #f8faff;">
+              <span class="badge badge-dark">{{ loading ? 'Refreshing' : 'Live data' }}</span>
+              <h2 class="panel-title" style="color: #f8faff;">Protected workspace overview</h2>
+              <ul class="status-list">
+                <li>Users, plans, and generations load from protected backend routes.</li>
+                <li>The most recent 100 authenticated content runs are available below.</li>
+                <li>Refresh anytime to pull the newest operational data.</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="metric-grid" style="position: relative; z-index: 1;">
+            <article class="metric-card">
+              <p class="metric-label">Users</p>
+              <p class="metric-value">{{ overview.userCount }}</p>
+              <p class="metric-note">Registered accounts currently available to the system.</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Plans</p>
+              <p class="metric-value">{{ overview.planCount }}</p>
+              <p class="metric-note">Active plan records seeded and tracked by the backend.</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Post generations</p>
+              <p class="metric-value">{{ overview.generationCount }}</p>
+              <p class="metric-note">Saved content runs made through authenticated workspaces.</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Image generations</p>
+              <p class="metric-value">{{ overview.imageGenerationCount }}</p>
+              <p class="metric-note">Image requests tracked for visibility and usage monitoring.</p>
+            </article>
+          </div>
         </section>
 
         <section class="table-shell">
           <div class="table-title">
             <div>
               <p class="eyebrow">Users</p>
-              <h2 class="mt-3 font-['Syne'] text-3xl leading-none">Account list</h2>
+              <h2 class="panel-title">Account list</h2>
             </div>
             <button class="btn btn-secondary" type="button" :disabled="loading" @click="loadAdminData">
               {{ loading ? 'Refreshing...' : 'Refresh' }}
@@ -81,7 +105,7 @@
                 </tr>
               </tbody>
             </table>
-            <div v-else class="empty-panel">No users available yet.</div>
+            <div v-else class="empty-panel">No users are available yet.</div>
           </div>
         </section>
 
@@ -89,9 +113,9 @@
           <div class="table-title">
             <div>
               <p class="eyebrow">Plans</p>
-              <h2 class="mt-3 font-['Syne'] text-3xl leading-none">Plan inventory</h2>
+              <h2 class="panel-title">Plan inventory</h2>
             </div>
-            <p class="field-help">Seeded on server startup and visible here immediately.</p>
+            <p class="field-help" style="margin: 0;">Every plan is visible here with subscriber counts.</p>
           </div>
 
           <div class="table-scroll">
@@ -115,7 +139,7 @@
                 </tr>
               </tbody>
             </table>
-            <div v-else class="empty-panel">No plans available yet.</div>
+            <div v-else class="empty-panel">No plans are available yet.</div>
           </div>
         </section>
 
@@ -123,9 +147,9 @@
           <div class="table-title">
             <div>
               <p class="eyebrow">Generations</p>
-              <h2 class="mt-3 font-['Syne'] text-3xl leading-none">Recent content runs</h2>
+              <h2 class="panel-title">Recent content runs</h2>
             </div>
-            <p class="field-help">Most recent 100 authenticated generations.</p>
+            <p class="field-help" style="margin: 0;">Most recent 100 authenticated generations.</p>
           </div>
 
           <div class="table-scroll">
@@ -145,7 +169,7 @@
                     <div class="field-help">{{ item.userEmail }}</div>
                   </td>
                   <td>
-                    <div class="font-semibold">{{ item.hook }}</div>
+                    <div>{{ item.hook }}</div>
                     <div class="field-help">{{ item.caption.slice(0, 120) }}...</div>
                   </td>
                   <td>{{ item.status }}</td>
@@ -153,7 +177,7 @@
                 </tr>
               </tbody>
             </table>
-            <div v-else class="empty-panel">No generations available yet.</div>
+            <div v-else class="empty-panel">No generations are available yet.</div>
           </div>
         </section>
       </main>
@@ -224,7 +248,10 @@ const formatDate = (value?: string) => {
     return 'Just now';
   }
 
-  return new Date(value).toLocaleString();
+  return new Date(value).toLocaleString(undefined, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
 };
 
 const loadAdminData = async () => {
