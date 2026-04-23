@@ -2,8 +2,8 @@
   <div>
     <div v-if="!auth.state.ready" class="loading-shell">
       <div class="loading-card">
-        <p class="eyebrow">Preparing Workspace</p>
-        <h1 class="loading-title">Restoring your session and loading the new experience.</h1>
+        <p class="eyebrow">Preparing workspace</p>
+        <h1 class="loading-title">Restoring your session and loading FrameFlow.</h1>
       </div>
     </div>
 
@@ -49,7 +49,7 @@
     <div v-else class="loading-shell">
       <div class="loading-card">
         <p class="eyebrow">Redirecting</p>
-        <h1 class="loading-title">Taking you to the right place.</h1>
+        <h1 class="loading-title">Finding the right page for your account.</h1>
       </div>
     </div>
 
