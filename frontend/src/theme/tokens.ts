@@ -10,10 +10,10 @@ export const themeTokens = {
 } as const;
 
 export const planHighlights: Record<string, string> = {
-  FREE: 'For testing your first workflow',
-  STARTER: 'For creators shipping consistently',
-  PRO: 'For teams running weekly campaigns',
-  ENTERPRISE: 'For operators managing scale',
+  FREE: 'A simple starting point for your first post flow',
+  STARTER: 'For solo creators posting on a real schedule',
+  PRO: 'For brands running repeat campaigns each week',
+  ENTERPRISE: 'For teams that need volume, control, and oversight',
 };
 
 export const roleLabels: Record<string, string> = {
