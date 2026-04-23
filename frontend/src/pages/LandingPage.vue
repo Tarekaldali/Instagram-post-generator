@@ -1,20 +1,26 @@
 <template>
   <div class="page-shell">
     <div class="container-shell">
-      <header class="site-header">
+      <header class="site-header site-header-floating">
         <div class="site-brand">
-          <div class="brand-mark">IG</div>
+          <div class="brand-mark">FF</div>
           <div class="brand-copy">
-            <p class="brand-title">Orangeframe Studio</p>
-            <p class="brand-subtitle">Instagram systems for modern operators</p>
+            <p class="brand-title">FrameFlow</p>
+            <p class="brand-subtitle">Instagram post generator for fast-moving teams</p>
           </div>
         </div>
+
+        <nav class="nav-links" aria-label="Primary">
+          <a class="nav-link" href="#workflow">Workflow</a>
+          <a class="nav-link" href="#workspace">Workspace</a>
+          <a class="nav-link" href="#plans">Plans</a>
+        </nav>
 
         <div class="nav-actions">
           <template v-if="user">
             <span class="badge badge-accent">{{ user.plan }} plan</span>
             <button class="btn btn-secondary" type="button" @click="$emit('openApp')">
-              Open dashboard
+              Open workspace
             </button>
             <button
               v-if="isAdmin"
@@ -28,121 +34,168 @@
           </template>
 
           <template v-else>
-            <button class="btn btn-secondary" type="button" @click="$emit('login')">Login</button>
+            <button class="btn btn-secondary" type="button" @click="$emit('login')">
+              Log in
+            </button>
             <button class="btn btn-primary" type="button" @click="$emit('signup')">
-              Start free
+              Get started free
             </button>
           </template>
         </div>
       </header>
 
-      <main class="space-y-12 pb-20">
-        <section class="hero-grid">
-          <div class="section-stack">
-            <p class="eyebrow">White / Black / Orange</p>
-            <h1 class="display-title">A sharper Instagram engine for brands that move fast.</h1>
-            <p class="lede">
-              Build a content workflow that actually survives contact with the real world:
-              sign in once, generate campaign-ready posts, manage plans, and give admins a
-              live view of users, plans, and generations.
+      <main class="page-stack landing-stack">
+        <section class="spotlight-shell">
+          <div class="spotlight-copy">
+            <p class="eyebrow eyebrow-inverse">Clear workflow. Faster posting.</p>
+            <h1 class="spotlight-title">
+              Create ready-to-post Instagram campaigns without juggling tools or messy prompts.
+            </h1>
+            <p class="spotlight-lede">
+              FrameFlow turns a simple brief into a hook, caption, hashtags, and image preview
+              inside one calm workspace. Keep the process easy, save each generation, and come
+              back later with your history still intact.
             </p>
 
-            <div class="hero-actions">
+            <div class="spotlight-actions">
               <button
                 class="btn btn-primary"
                 type="button"
                 @click="user ? $emit('openApp') : $emit('signup')"
               >
-                {{ user ? 'Resume workspace' : 'Create account' }}
+                {{ user ? 'Resume workspace' : 'Create workspace' }}
               </button>
               <button class="btn btn-secondary" type="button" @click="$emit('login')">
                 Sign in
               </button>
             </div>
-
-            <div class="metric-grid">
-              <article class="metric-card">
-                <p class="metric-label">Session aware navigation</p>
-                <p class="metric-value">Persistent</p>
-              </article>
-              <article class="metric-card">
-                <p class="metric-label">Plan system</p>
-                <p class="metric-value">4 tiers</p>
-              </article>
-              <article class="metric-card">
-                <p class="metric-label">Admin visibility</p>
-                <p class="metric-value">Live tables</p>
-              </article>
-            </div>
           </div>
 
-          <article class="dark-card p-6 md:p-8">
-            <div class="section-stack">
-              <div class="flex flex-wrap items-center justify-between gap-3">
-                <span class="badge badge-dark">Product snapshot</span>
-                <span class="badge badge-dark">/app + /admin</span>
+          <div class="feature-rail">
+            <article class="feature-rail-card">
+              <span class="mini-pill">01</span>
+              <h2 class="feature-card-title">Simple input</h2>
+              <p class="feature-card-copy">
+                Start with a niche, tone, goal, and a little campaign context.
+              </p>
+            </article>
+            <article class="feature-rail-card">
+              <span class="mini-pill">02</span>
+              <h2 class="feature-card-title">Real output</h2>
+              <p class="feature-card-copy">
+                Generate a usable hook, caption, hashtags, and an image preview together.
+              </p>
+            </article>
+            <article class="feature-rail-card">
+              <span class="mini-pill">03</span>
+              <h2 class="feature-card-title">Brand-aware</h2>
+              <p class="feature-card-copy">
+                Save brand details once so every new post has better context.
+              </p>
+            </article>
+            <article class="feature-rail-card">
+              <span class="mini-pill">04</span>
+              <h2 class="feature-card-title">History and control</h2>
+              <p class="feature-card-copy">
+                Keep saved generations, plan access, and admin visibility in the same product.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="workflow" class="story-grid">
+          <article class="panel">
+            <div class="panel-stack">
+              <div>
+                <p class="eyebrow">How it works</p>
+                <h2 class="section-title">One path from idea to post draft.</h2>
               </div>
 
-              <div class="preview-placeholder">
-                <div>
-                  <p class="eyebrow text-orange-200">Campaign Preview</p>
-                  <h2 class="mt-4 font-['Syne'] text-3xl leading-tight">
-                    “Stop wasting good ideas on weak packaging.”
-                  </h2>
-                  <p class="mt-4 max-w-md text-sm leading-7 text-orange-50/78">
-                    Dedicated auth, persistent state, seeded plans, and admin oversight now
-                    live inside one cohesive interface.
+              <ol class="story-list">
+                <li>Set the niche, goal, tone, and campaign direction.</li>
+                <li>Generate the post package and review the image preview instantly.</li>
+                <li>Save the result to history so the next session starts with context.</li>
+              </ol>
+            </div>
+          </article>
+
+          <article class="panel-dark">
+            <div class="panel-stack">
+              <div>
+                <p class="eyebrow eyebrow-inverse">Inside the app</p>
+                <h2 class="panel-title">Built for clarity instead of clutter.</h2>
+              </div>
+
+              <div class="auth-points">
+                <div class="auth-point">
+                  <p class="auth-point-title">Dedicated login and workspace routes</p>
+                  <p class="auth-point-copy">
+                    The app keeps public pages, auth, dashboard, and admin areas easy to follow.
                   </p>
                 </div>
-              </div>
-
-              <div class="feature-grid">
-                <article class="insight-card bg-white/5 text-white">
-                  <p class="text-sm font-semibold">Dedicated login page</p>
-                  <p class="mt-2 text-sm text-white/72">
-                    No more modal auth dead ends.
+                <div class="auth-point">
+                  <p class="auth-point-title">Live credits and plans</p>
+                  <p class="auth-point-copy">
+                    Users can see what plan is active and how many generations remain.
                   </p>
-                </article>
-                <article class="insight-card bg-white/5 text-white">
-                  <p class="text-sm font-semibold">Seeded plans on boot</p>
-                  <p class="mt-2 text-sm text-white/72">
-                    FREE, STARTER, PRO, ENTERPRISE.
+                </div>
+                <div class="auth-point">
+                  <p class="auth-point-title">Saved generation history</p>
+                  <p class="auth-point-copy">
+                    Every successful run can return as a reusable reference for later content.
                   </p>
-                </article>
-                <article class="insight-card bg-white/5 text-white">
-                  <p class="text-sm font-semibold">Admin visibility</p>
-                  <p class="mt-2 text-sm text-white/72">
-                    Users, plans, and generations in one view.
-                  </p>
-                </article>
+                </div>
               </div>
             </div>
           </article>
         </section>
 
-        <section class="feature-grid">
-          <article class="section-card">
-            <p class="eyebrow">01</p>
-            <h2 class="mt-3 font-['Syne'] text-2xl">Real authentication flow</h2>
-            <p class="mt-3 lede">
-              Signup and login now connect to the backend instead of simulating success in
-              local component state.
+        <section id="workspace" class="section-grid">
+          <article class="story-card">
+            <p class="eyebrow">Landing</p>
+            <h2 class="panel-title">Show the product fast.</h2>
+            <p class="panel-copy">
+              The first screen explains the workflow clearly and makes it obvious where to start.
             </p>
           </article>
-          <article class="section-card">
-            <p class="eyebrow">02</p>
-            <h2 class="mt-3 font-['Syne'] text-2xl">Operator-grade dashboard</h2>
-            <p class="mt-3 lede">
-              Generate content, manage brand context, inspect credits, and activate plans
-              from a single workspace.
+
+          <article class="story-card">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="panel-title">Generate with less friction.</h2>
+            <p class="panel-copy">
+              Inputs, preview, brand profile, plan controls, and history live in one easy layout.
             </p>
           </article>
-          <article class="section-card">
-            <p class="eyebrow">03</p>
-            <h2 class="mt-3 font-['Syne'] text-2xl">Protected admin route</h2>
-            <p class="mt-3 lede">
-              Admins get a dedicated route with data tables instead of guessing how to
-              reach internal tooling.
+
+          <article class="story-card">
+            <p class="eyebrow">Admin</p>
+            <h2 class="panel-title">Keep the back office visible.</h2>
+            <p class="panel-copy">
+              Admins can monitor users, plans, and recent generations without hunting for tools.
+            </p>
+          </article>
+        </section>
+
+        <section id="plans" class="info-grid">
+          <article class="info-card">
+            <p class="metric-label">Use case</p>
+            <p class="metric-value">Creators</p>
+            <p class="metric-note">
+              Draft posts faster when you need something usable right now.
+            </p>
+          </article>
+          <article class="info-card">
+            <p class="metric-label">Use case</p>
+            <p class="metric-value">Small brands</p>
+            <p class="metric-note">
+              Keep brand voice and campaign direction consistent across new posts.
+            </p>
+          </article>
+          <article class="info-card">
+            <p class="metric-label">Use case</p>
+            <p class="metric-value">Agencies</p>
+            <p class="metric-note">
+              Generate quickly, review the image, and keep an auditable history of output.
             </p>
           </article>
         </section>
